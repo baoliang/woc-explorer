@@ -1,5 +1,6 @@
 var LRU = require("lru-cache");
 var fs = require('fs');
+const axios = require('axios');
 
 var utils = require("../utils.js");
 var config = require("../config.js");
@@ -61,9 +62,9 @@ function shouldCacheBlock(block) {
 	return (block && block.tx && block.tx.length < 5000);
 }
 
-function getBlockchainInfo() {
-	return tryCacheThenRpcApi(miscCache, "getBlockchainInfo", 10000, rpcApi.getBlockchainInfo);
-}
+async function getBlockchainInfo() {
+	const res = await axios.get(`${process.env.API_URL}/v1/client/status`);
+	return res}
 
 function getNetworkInfo() {
 	return tryCacheThenRpcApi(miscCache, "getNetworkInfo", 10000, rpcApi.getNetworkInfo);
@@ -73,13 +74,17 @@ function getNetTotals() {
 	return tryCacheThenRpcApi(miscCache, "getNetTotals", 10000, rpcApi.getNetTotals);
 }
 
-function getMempoolInfo() {
-	return tryCacheThenRpcApi(miscCache, "getMempoolInfo", 1000, rpcApi.getMempoolInfo);
+async function getMempoolInfo() {
+	const res = await axios.get(`${process.env.API_URL}/v1/transactions/pool`);
+	console.log(res, 'res')
+	return res
 }
 
-function getMiningInfo() {
-	return tryCacheThenRpcApi(miscCache, "getMiningInfo", 1000, rpcApi.getMiningInfo);
+async function getMiningInfo() {
+//	const res = await axios.get(`${process.env.API_URL}'/v1/transactions/pool'`);
+	return {networkhashps: 0}
 }
+
 
 function getUptimeSeconds() {
 	return tryCacheThenRpcApi(miscCache, "getUptimeSeconds", 1000, rpcApi.getUptimeSeconds);

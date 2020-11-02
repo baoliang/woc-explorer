@@ -130,14 +130,14 @@ app.runOnStartup = function() {
 	}
 
 	if (config.electrumXServers && config.electrumXServers.length > 0) {
-		electrumApi.connectToServers().then(function() {
-			console.log("Live with ElectrumX API.");
+		// electrumApi.connectToServers().then(function() {
+		// 	console.log("Live with ElectrumX API.");
 
-			global.electrumApi = electrumApi;
+		// 	global.electrumApi = electrumApi;
 			
-		}).catch(function(err) {
-			console.log("Error 31207ugf4e0fed: " + err + ", while initializing ElectrumX API");
-		});
+		// }).catch(function(err) {
+		// 	console.log("Error 31207ugf4e0fed: " + err + ", while initializing ElectrumX API");
+		// });
 	}
 
 	if (global.coinConfig.miningPoolsConfigUrls) {
@@ -184,14 +184,14 @@ app.runOnStartup = function() {
 	// }
 
 	if (global.exchangeRate == null) {
-		utils.refreshExchangeRate();
+		//utils.refreshExchangeRate();
 	}
 
 	// refresh exchange rate periodically
-	setInterval(utils.refreshExchangeRate, 1800000);
+	//setInterval(utils.refreshExchangeRate, 1800000);
 
-	utils.logMemoryUsage();
-	setInterval(utils.logMemoryUsage, 5000);
+	//utils.logMemoryUsage();
+	//setInterval(utils.logMemoryUsage, 5000);
 };
 
 app.use(function(req, res, next) {

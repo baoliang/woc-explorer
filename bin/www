@@ -1,7 +1,8 @@
 #!/usr/bin/env node
+require('dotenv').config();
 var debug = require('debug')('my-application');
 var app = require('../app');
-
+// console.log(app)
 app.set('port', process.env.PORT || 3002);
 
 var server = app.listen(app.get('port'), function() {
