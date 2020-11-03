@@ -68,8 +68,8 @@ block content
 
 							span(class="font-weight-bold") Unconfirmed Transactions
 
-							p(class="lead") #{mempoolInfo.size.toLocaleString()} tx 
-								- var mempoolBytesData = utils.formatLargeNumber(mempoolInfo.usage, 2);
+							p(class="lead") #{mempoolInfo.tx_count.toLocaleString()} tx 
+								- var mempoolBytesData = utils.formatLargeNumber(mempoolInfo.orphan_count, 2);
 								span(class="text-muted") (#{mempoolBytesData[0]} #{mempoolBytesData[1].abbreviation}B)
 
 						li

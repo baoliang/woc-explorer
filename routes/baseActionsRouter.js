@@ -40,8 +40,9 @@ router.get("/", function(req, res) {
 
 	promises.push(coreApi.getMempoolInfo());
 	promises.push(coreApi.getMiningInfo());
-	
-	coreApi.getBlockchainInfo().then(function(getblockchaininfo) {
+	try {
+		const getblockchaininfo = await coreApi.getBlockchainInfo().then(function(getblockchaininfo) {
+
 		if (getblockchaininfo.chain !== 'regtest') {
 			var chainTxStatsIntervals = [ 144, 144 * 7, 144 * 30, 144 * 265 ];
 			res.locals.chainTxStatsLabels = [ "24 hours", "1 week", "1 month", "1 year", "All time" ];
@@ -77,10 +78,14 @@ router.get("/", function(req, res) {
 				res.render("index");
 			});
 		});
-	}).catch(function(err) {
+	} catch (error) {
 		res.locals.userMessage = "Error loading recent blocks: " + err;
 
 		res.render("index");
+	}
+		
+	}).catch(function(err) {
+	
 	});
 });
 

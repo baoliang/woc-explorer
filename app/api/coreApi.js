@@ -64,7 +64,11 @@ function shouldCacheBlock(block) {
 
 async function getBlockchainInfo() {
 	const res = await axios.get(`${process.env.API_URL}/v1/client/status`);
-	return res}
+	res.data.difficulty = res.data.known_best_height -  res.data.local_best_height
+
+	console.log('status', res.data)
+	return res.data
+}
 
 function getNetworkInfo() {
 	return tryCacheThenRpcApi(miscCache, "getNetworkInfo", 10000, rpcApi.getNetworkInfo);
@@ -76,8 +80,8 @@ function getNetTotals() {
 
 async function getMempoolInfo() {
 	const res = await axios.get(`${process.env.API_URL}/v1/transactions/pool`);
-	console.log(res, 'res')
-	return res
+	console.log(res.data, 'res')
+	return res.data
 }
 
 async function getMiningInfo() {
@@ -90,10 +94,9 @@ function getUptimeSeconds() {
 	return tryCacheThenRpcApi(miscCache, "getUptimeSeconds", 1000, rpcApi.getUptimeSeconds);
 }
 
-function getChainTxStats(blockCount) {
-	return tryCacheThenRpcApi(miscCache, "getChainTxStats-" + blockCount, 120000, function() {
-		return rpcApi.getChainTxStats(blockCount);
-	});
+async function getChainTxStats(blockCount) {
+	const res = await axios.get(`${process.env.API_URL}/v1/transactions/pool`);
+	return res.data
 }
 
 function getPeerSummary() {
